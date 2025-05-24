@@ -13,7 +13,7 @@ GameObject:
   - component: {fileID: 6327437822766312094}
   - component: {fileID: 3164782493646698309}
   - component: {fileID: 5599059084877683620}
-  m_Layer: 3
+  m_Layer: 4
   m_Name: Canvas
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -93,7 +93,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 431404370824442514}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: dc42784cf147c0c48a680349fa168899, type: 3}
   m_Name: 
@@ -121,7 +121,7 @@ MonoBehaviour:
   rectTransform: {fileID: 8578179681492642847}
   maxTextureSize: 2048
   manualRedraw: 0
-  renderInterval: 1
+  renderInterval: 2
   renderIntervalFrameOffset: 0
   expensive: 0
   layer: 5
@@ -457,7 +457,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0972b61605641f841a7d18eae5b31f97, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  picture: {fileID: 2800000, guid: 3da1ca621aafe5a47a86f753f87be29a, type: 3}
+  picture: {fileID: 2800000, guid: 7d6c61cad18bb9843a4d437351c7ad72, type: 3}
   rawImage: {fileID: 1471063608067939829}
 --- !u!1 &2636400548053222304
 GameObject:
@@ -1918,7 +1918,7 @@ GameObject:
   - component: {fileID: 5159669970571678175}
   - component: {fileID: 5185199012357455474}
   - component: {fileID: 1471063608067939829}
-  m_Layer: 3
+  m_Layer: 4
   m_Name: RawImage
   m_TagString: Untagged
   m_Icon: {fileID: 0}
