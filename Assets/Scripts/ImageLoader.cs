@@ -4,12 +4,18 @@ using UnityEngine;
 public class ImageLoader : MonoBehaviour
 {
     [SerializeField] private GameObject paintingPrefab; // Reference to the Painting prefab
-    private string imageFileType;
+
+    private string[] fileTypes;
+
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
-        imageFileType = NativeFilePicker.ConvertExtensionToFileType("jpg");
-        Debug.Log(imageFileType);
+        // imageFileType = NativeFilePicker.ConvertExtensionToFileType("jpg");
+#if UNITY_ANDROID
+        fileTypes = new string[] { "image/*" };
+#else
+		fileTypes = new string[] { "public.image" };
+#endif
     }
 
     public void LoadImage()
@@ -25,7 +31,8 @@ public class ImageLoader : MonoBehaviour
                 {
                     Painting spawnedPainting = Instantiate(paintingPrefab).GetComponent<Painting>();
                     spawnedPainting.Picture = texture;
-                } else
+                }
+                else
                 {
                     Debug.LogError("Failed to load image data into texture.");
                 }
@@ -34,6 +41,6 @@ public class ImageLoader : MonoBehaviour
             {
                 Debug.Log("No image selected");
             }
-        }, imageFileType);
+        }, fileTypes);
     }
 }
