@@ -88,6 +88,7 @@ public class ImageLoader : MonoBehaviour
     {
         yield return new WaitForSeconds(delay);
         painting.transform.SetParent(null); // Detach from player head
+        painting.PlaySpawnParticle();
     }
 
     private IEnumerator CameraFlash()

@@ -12,7 +12,10 @@ public class Painting : MonoBehaviour
     [SerializeField] private float autoPositionDistance = 0.2f;
     [SerializeField] private Transform rayPoint;
     [SerializeField] private TextMeshProUGUI countdownText;
-    
+    [SerializeField] private ParticleSystem spawnParticles;
+    [SerializeField] private ParticleSystem wallParticles;
+    [SerializeField] private AudioSource audioSource;
+    [SerializeField] private AudioClip wallPlacementSound;
     private void MatchScaleToTexture(Texture texture)
     {
         float aspectRatio = GetTextureAspectRatio(texture);
@@ -35,6 +38,11 @@ public class Painting : MonoBehaviour
             if(anchor.Label != MRUKAnchor.SceneLabels.WALL_FACE) return;
             transform.position = hit.point;
             transform.rotation = Quaternion.LookRotation(hit.normal);
+            if(wallParticles) wallParticles.Play();
+            if (audioSource && wallPlacementSound)
+            {
+                audioSource.PlayOneShot(wallPlacementSound);
+            }
         }
     }
     
@@ -49,6 +57,14 @@ public class Painting : MonoBehaviour
         if (countdownText)
         {
             countdownText.text = countdown;
+        }
+    }
+    
+    public void PlaySpawnParticle()
+    {
+        if (spawnParticles)
+        {
+            spawnParticles.Play();
         }
     }
 }
