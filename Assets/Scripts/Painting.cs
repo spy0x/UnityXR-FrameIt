@@ -1,6 +1,7 @@
 using System.Collections;
 using Meta.XR.MRUtilityKit;
 using Oculus.Interaction;
+using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -10,6 +11,7 @@ public class Painting : MonoBehaviour
     [SerializeField] private GrabFreeTransformer grabFreeTransformer;
     [SerializeField] private float autoPositionDistance = 0.2f;
     [SerializeField] private Transform rayPoint;
+    [SerializeField] private TextMeshProUGUI countdownText;
     
     private void MatchScaleToTexture(Texture texture)
     {
@@ -40,5 +42,13 @@ public class Painting : MonoBehaviour
     {
         rawImage.texture = newTexture;
         if (matchScale) MatchScaleToTexture(newTexture);
+    }
+
+    public void SetCountdownText(string countdown)
+    {
+        if (countdownText)
+        {
+            countdownText.text = countdown;
+        }
     }
 }
