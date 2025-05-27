@@ -6,12 +6,12 @@ using UnityEngine.UI;
 
 public class Painting : MonoBehaviour
 {
-    [SerializeField] private Texture2D picture;
+    [SerializeField] private Texture picture;
     [SerializeField] private RawImage rawImage;
     [SerializeField] private GrabFreeTransformer grabFreeTransformer;
     [SerializeField] private float autoPositionDistance = 0.2f;
     [SerializeField] private Transform rayPoint;
-    public Texture2D Picture { get => picture; set => picture = value; }
+    public Texture Picture { get => picture; set => picture = value; }
     void Start()
     {
         // yield return new WaitForEndOfFrame(); // Ensure the UI is ready before setting the texture
@@ -20,14 +20,14 @@ public class Painting : MonoBehaviour
         grabFreeTransformer.enabled = true;
     }
 
-    private float GetTextureAspectRatio(Texture2D texture)
+    private float GetTextureAspectRatio(Texture texture)
     {
         if (texture == null || texture.height == 0) return 1f; // Fallback to square
         Debug.Log($"Texture Width: {texture.width}, Height: {texture.height}");
         return (float)texture.width / texture.height;
     }
     
-    private void MatchScaleToTexture(Texture2D texture)
+    private void MatchScaleToTexture(Texture texture)
     {
         float aspectRatio = GetTextureAspectRatio(texture);
     
