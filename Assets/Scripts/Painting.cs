@@ -6,26 +6,10 @@ using UnityEngine.UI;
 
 public class Painting : MonoBehaviour
 {
-    [SerializeField] private Texture picture;
     [SerializeField] private RawImage rawImage;
     [SerializeField] private GrabFreeTransformer grabFreeTransformer;
     [SerializeField] private float autoPositionDistance = 0.2f;
     [SerializeField] private Transform rayPoint;
-    public Texture Picture { get => picture; set => picture = value; }
-    void Start()
-    {
-        // yield return new WaitForEndOfFrame(); // Ensure the UI is ready before setting the texture
-        rawImage.texture = picture;
-        MatchScaleToTexture(picture);
-        grabFreeTransformer.enabled = true;
-    }
-
-    private float GetTextureAspectRatio(Texture texture)
-    {
-        if (texture == null || texture.height == 0) return 1f; // Fallback to square
-        Debug.Log($"Texture Width: {texture.width}, Height: {texture.height}");
-        return (float)texture.width / texture.height;
-    }
     
     private void MatchScaleToTexture(Texture texture)
     {
@@ -34,6 +18,11 @@ public class Painting : MonoBehaviour
         transform.localScale = new Vector3(transform.localScale.x * aspectRatio, transform.localScale.y, transform.localScale.z);
     }
 
+    private float GetTextureAspectRatio(Texture texture)
+    {
+        if (texture == null || texture.height == 0) return 1f; // Fallback to square
+        return (float)texture.width / texture.height;
+    }
     public void TryPlaceOnWall()
     {
         MRUKRoom room = MRUK.Instance.GetCurrentRoom();
@@ -45,5 +34,11 @@ public class Painting : MonoBehaviour
             transform.position = hit.point;
             transform.rotation = Quaternion.LookRotation(hit.normal);
         }
+    }
+    
+    public void SetPicture(Texture newTexture, bool matchScale = true)
+    {
+        rawImage.texture = newTexture;
+        if (matchScale) MatchScaleToTexture(newTexture);
     }
 }

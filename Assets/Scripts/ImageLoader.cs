@@ -1,3 +1,4 @@
+using System.Collections;
 using System.IO;
 using PassthroughCameraSamples;
 using UnityEngine;
@@ -6,14 +7,11 @@ public class ImageLoader : MonoBehaviour
 {
     [SerializeField] private GameObject paintingPrefab; // Reference to the Painting prefab
     [SerializeField] private WebCamTextureManager webCamTextureManager;
+    [SerializeField] private Transform playerHead;
+    [SerializeField] private float cameraCaptureDelay = 3f; // Delay to allow camera to initialize
 
     private string[] fileTypes;
-
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
-    void Start()
-    {
-        // imageFileType = NativeFilePicker.ConvertExtensionToFileType("jpg");
-    }
+    private Coroutine cameraCoroutine;
 
     public void LoadImage()
     {
@@ -24,42 +22,42 @@ public class ImageLoader : MonoBehaviour
 #endif
         NativeFilePicker.PickFile((path) =>
         {
-            if (path != null)
+            if (path == null) return;
+            byte[] fileData = File.ReadAllBytes(path);
+            Texture2D texture = new Texture2D(2, 2); // Create a new texture
+            if (texture.LoadImage(fileData)) // This auto-resizes the texture
             {
-                Debug.Log("Image path: " + path);
-                byte[] fileData = File.ReadAllBytes(path);
-                Texture2D texture = new Texture2D(2, 2); // Create a new texture
-                if (texture.LoadImage(fileData)) // This auto-resizes the texture
-                {
-                    Painting spawnedPainting = Instantiate(paintingPrefab).GetComponent<Painting>();
-                    spawnedPainting.Picture = texture;
-                }
-                else
-                {
-                    Debug.LogError("Failed to load image data into texture.");
-                }
-            }
-            else
-            {
-                Debug.Log("No image selected");
+                Painting spawnedPainting = Instantiate(paintingPrefab, playerHead).GetComponent<Painting>();
+                spawnedPainting.SetPicture(texture);
+                StartCoroutine(DetachPaintingAfterDelay(spawnedPainting, .5f)); // Detach after .5 second
             }
         }, fileTypes);
     }
 
     public void TakePicture()
     {
-        if (webCamTextureManager.WebCamTexture)
-        {
-            WebCamTexture webCamTexture = webCamTextureManager.WebCamTexture;
-            Texture2D copy = new Texture2D(webCamTexture.width, webCamTexture.height, TextureFormat.RGBA32, false);
-            copy.SetPixels32(webCamTexture.GetPixels32());
-            copy.Apply();
-            Painting spawnedPainting = Instantiate(paintingPrefab).GetComponent<Painting>();
-            spawnedPainting.Picture = copy;
-        }
-        else
-        {
-            Debug.LogError("WebCamTexture is not available.");
-        }
+        if (cameraCoroutine != null) return;
+        cameraCoroutine = StartCoroutine(CaptureWebCamTexture());
+    }
+
+    private IEnumerator CaptureWebCamTexture()
+    {
+        webCamTextureManager.gameObject.SetActive(true);
+        yield return new WaitUntil(() => webCamTextureManager.WebCamTexture);
+        Painting painting = Instantiate(paintingPrefab, playerHead).GetComponent<Painting>();
+        painting.SetPicture(webCamTextureManager.WebCamTexture);
+        yield return new WaitForSeconds(cameraCaptureDelay);
+        Texture2D copy = new Texture2D(webCamTextureManager.WebCamTexture.width, webCamTextureManager.WebCamTexture.height, TextureFormat.RGBA32, false);
+        copy.SetPixels32(webCamTextureManager.WebCamTexture.GetPixels32());
+        copy.Apply();
+        StartCoroutine(DetachPaintingAfterDelay(painting, .0f)); // Detach after 1 second
+        painting.SetPicture(copy, false);
+        webCamTextureManager.gameObject.SetActive(false);
+        cameraCoroutine = null;
+    }
+    private IEnumerator DetachPaintingAfterDelay(Painting painting, float delay)
+    {
+        yield return new WaitForSeconds(delay);
+        painting.transform.SetParent(null); // Detach from player head
     }
 }
