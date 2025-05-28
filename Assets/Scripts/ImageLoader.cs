@@ -5,7 +5,7 @@ using UnityEngine;
 
 public class ImageLoader : MonoBehaviour
 {
-    [SerializeField] private GameObject paintingPrefab; // Reference to the Painting prefab
+    [SerializeField] private GameObject[] paintingPrefab; // Reference to the Painting prefab
     [SerializeField] private WebCamTextureManager webCamTextureManager;
     [SerializeField] private Transform playerHead;
     [SerializeField] private float cameraCaptureDelay = 3f; // Delay to allow camera to initialize
@@ -35,7 +35,7 @@ public class ImageLoader : MonoBehaviour
             Texture2D texture = new Texture2D(2, 2); // Create a new texture
             if (texture.LoadImage(fileData)) // This auto-resizes the texture
             {
-                Painting spawnedPainting = Instantiate(paintingPrefab, playerHead).GetComponent<Painting>();
+                Painting spawnedPainting = Instantiate(paintingPrefab[Random.Range(0, paintingPrefab.Length)], playerHead).GetComponent<Painting>();
                 spawnedPainting.SetPicture(texture);
                 StartCoroutine(DetachPaintingAfterDelay(spawnedPainting, .5f)); // Detach after .5 second
             }
@@ -53,7 +53,7 @@ public class ImageLoader : MonoBehaviour
         webCamTextureManager.gameObject.SetActive(true);
         yield return new WaitUntil(() => webCamTextureManager.WebCamTexture);
         passthroughLayer.colorMapEditorBrightness = passthroughBrightnessCamera; // Set the passthrough opacity
-        Painting painting = Instantiate(paintingPrefab, playerHead).GetComponent<Painting>();
+        Painting painting = Instantiate(paintingPrefab[Random.Range(0, paintingPrefab.Length)], playerHead).GetComponent<Painting>();
         painting.SetPicture(webCamTextureManager.WebCamTexture);
         float elapsedTime = 0f;
         int currentSecond = 0;

@@ -1239,7 +1239,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   blockId: f0540b20-dfd6-420e-b20d-c270f88dc77e
-  instanceId: e5f7dd2f-cbfc-4480-bafc-a12985711caf
+  instanceId: 158cf7e9-e3dc-43bd-b2fb-6c0644e11c99
   version: 1
   installationRoutineCheckpoint:
     _installationRoutineId: 
@@ -2070,7 +2070,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e2b92892ce98646498fb79091bd18b77, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  paintingPrefab: {fileID: 2324767871177911096, guid: 89e66640a4abc8c45944f220e8c2c5bd, type: 3}
+  paintingPrefab:
+  - {fileID: 482301885341428275, guid: c7e99ac82da16c447860bcd42aeb5891, type: 3}
   webCamTextureManager: {fileID: 8362501352898425874}
   playerHead: {fileID: 0}
   cameraCaptureDelay: 3
@@ -4449,7 +4450,7 @@ MonoBehaviour:
   _hand: {fileID: 3458450563534573147}
   _offset: {x: -0.08, y: 0, z: -0.001}
   _rotation: {x: -0.00000003090862, y: 0.70710677, z: -0.70710677, w: -0.00000003090862}
-  _posOffset: {x: -0.001, y: -0.02, z: 0.08}
+  _posOffset: {x: -0.001, y: -0.02, z: 0.1}
   _rotOffset: {x: 0.50000006, y: -0.49999997, z: 0.5, w: 0.5}
   _mirrorOffsetsForLeftHand: 1
   _freezeRotationX: 0
